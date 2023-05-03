@@ -1,23 +1,18 @@
 package main
 
 import (
-	//Para imprimir en consola
-	// El paquete HTTP
+	"net/http"
 
-	// El paquete de rutas
-	"github.com/joaco-basile/CFP/api" // El paquete de mi API
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
+
 	e := echo.New()
-	//Creando un objeto API
-	a := &api.API{}
-	//Registrando las rutas
-	a.RegisterRoutes(e)
 
-	db := OpenDb()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "El server responde")
+	})
 
-	e.Logger.Fatal(e.Start(":8080"))
-
+	e.Logger.Fatal(e.Start(":1323"))
 }
