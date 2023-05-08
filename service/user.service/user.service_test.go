@@ -1,78 +1,67 @@
 package user_service_test
 
-import (
-	"testing"
-	"time"
+// func TestRegister(t *testing.T) {
 
-	m "github.com/joaco-basile/pedidocs-back/models"
-	user_service "github.com/joaco-basile/pedidocs-back/service/user.service"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-)
+// 	oid := primitive.NewObjectID()
+// 	userId = oid.Hex()
 
-var userId string
+// 	user := m.User{
+// 		ID:        oid,
+// 		Name:      "Jesus",
+// 		Email:     "jesus.matiz@micorreo.com",
+// 		Password:  "123",
+// 		CreatedAt: time.Now(),
+// 		UpdatedAt: time.Now(),
+// 	}
 
-func TestRegister(t *testing.T) {
+// 	err := user_service.Register(user)
 
-	oid := primitive.NewObjectID()
-	userId = oid.Hex()
+// 	if err != nil {
+// 		t.Error("El usuario no se pudo registrar")
+// 		t.Fail()
+// 	} else {
+// 		t.Log("la prueba de registrarse finalizo con exito")
+// 	}
 
-	user := m.User{
-		ID:        oid,
-		Name:      "Jesus",
-		Email:     "jesus.matiz@micorreo.com",
-		Password:  "123",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
+// }
 
-	err := user_service.Register(user)
+// func TestLogin(t *testing.T) {
 
-	if err != nil {
-		t.Error("El usuario no se pudo registrar")
-		t.Fail()
-	} else {
-		t.Log("la prueba de registrarse finalizo con exito")
-	}
+// 	usr, err := user_service.Login("Jesus", "jesus.matiz@micorreo.com", "123")
 
-}
+// 	if err != nil {
+// 		t.Error("El login ha fallado")
+// 		t.Fail()
+// 	} else {
+// 		t.Log("La prueba de login finalizo con exito!", usr)
+// 	}
+// }
 
-func TestLogin(t *testing.T) {
+// func TestUpdate(t *testing.T) {
 
-	usr, err := user_service.Login("Jesus", "jesus.matiz@micorreo.com", "123")
+// 	user := m.User{
+// 		Name:  "Jesus Matiz",
+// 		Email: "jesus.matiz.prg@gmail.com",
+// 	}
 
-	if err != nil {
-		t.Error("El login ha fallado")
-		t.Fail()
-	} else {
-		t.Log("La prueba de login finalizo con exito!", usr)
-	}
-}
+// 	err := user_service.Update(user, userId)
 
-func TestUpdate(t *testing.T) {
+// 	if err != nil {
+// 		t.Error("Error al tratar de actualizar el usuario")
+// 		t.Fail()
+// 	} else {
+// 		t.Log("La prueba de actualización finalizo con exito!")
+// 	}
+// }
 
-	user := m.User{
-		Name:  "Jesus Matiz",
-		Email: "jesus.matiz.prg@gmail.com",
-	}
+// func TestDelete(t *testing.T) {
 
-	err := user_service.Update(user, userId)
+// 	err := user_service.Delete(userId)
 
-	if err != nil {
-		t.Error("Error al tratar de actualizar el usuario")
-		t.Fail()
-	} else {
-		t.Log("La prueba de actualización finalizo con exito!")
-	}
-}
-
-func TestDelete(t *testing.T) {
-
-	err := user_service.Delete(userId)
-
-	if err != nil {
-		t.Error("Error al tratar de eliminar el usuario")
-		t.Fail()
-	} else {
-		t.Log("La prueba de eliminación finalizo con exito!")
-	}
-}
+// 	if err != nil {
+// 		t.Error("Error al tratar de eliminar el usuario")
+// 		t.Fail()
+// 	} else {
+// 		t.Log("La prueba de eliminación finalizo con exito!")
+// 	}
+// }

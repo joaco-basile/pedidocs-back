@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,7 +12,7 @@ import (
 var ctx = context.TODO()
 
 func GetCollection(collectionName string) *mongo.Collection {
-	clientOptions := options.Client().ApplyURI("mongodb+srv://joacobasile:92HAcKTbzhcua2Sr@pedidocs.dybqk3p.mongodb.net/?retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI("mongodb+srv://joacobasile:8mz0b8OwlYn7VEpg@pedidocs.dybqk3p.mongodb.net/?retryWrites=true&w=majority")
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err)
@@ -19,6 +20,7 @@ func GetCollection(collectionName string) *mongo.Collection {
 
 	err = client.Ping(ctx, nil)
 	if err != nil {
+		fmt.Println("aca tas")
 		log.Fatal(err)
 	}
 
