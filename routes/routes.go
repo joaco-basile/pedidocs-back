@@ -11,5 +11,5 @@ func SetRoutes(e *echo.Echo) {
 	public.POST("/user", user_service.Register)
 	public.GET("/user", user_service.Login)
 	public.PATCH("/user", user_service.Update)
-	public.PUT("/user", user_service.Delete)
+	public.PUT("/user/:id", user_service.Delete)
 }

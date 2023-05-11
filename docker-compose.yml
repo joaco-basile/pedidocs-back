@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: joacobasile
+      MONGO_INITDB_ROOT_PASSWORD: joacodev123
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/:/data/
+    restart: unless-stopped

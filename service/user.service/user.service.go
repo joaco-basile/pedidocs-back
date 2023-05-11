@@ -24,53 +24,92 @@ var TestUser = m.User{
 }
 
 func Register(c echo.Context) error {
+	var json map[string]interface{} = map[string]interface{}{}
 
-	err := user_repository.RegisterUser(TestUser)
-
+	err := c.Bind(&json)
 	if err != nil {
-		return c.String(http.StatusBadRequest, "No se pudo registrar el usuario")
+		return err
 	}
 
-	return c.String(http.StatusOK, "Se creo el nuevo usuario")
+	var user = m.User{
+		ID:        primitive.NewObjectID(),
+		Name:      json["name"].(string),
+		Email:     json["email"].(string),
+		Password:  json["password"].(string),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	err = user_repository.RegisterUser(user)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.JSON(http.StatusOK, user)
 }
 
 func Login(c echo.Context) error {
 
-	_, err := user_repository.LoginUser(TestUser.Name, TestUser.Email, TestUser.Password)
+	var json map[string]interface{} = map[string]interface{}{}
+
+	err := c.Bind(&json)
+	if err != nil {
+		return err
+	}
+
+	user, err := user_repository.LoginUser(json["name"].(string), json["password"].(string))
 
 	if err != nil {
-		return c.String(http.StatusBadRequest, "fallo el login")
+		return c.JSON(http.StatusBadRequest, err)
 	}
-	return c.String(http.StatusOK, "se logueo con exito")
+
+	return c.JSON(http.StatusOK, user)
 }
 
 func Update(c echo.Context) error {
-
-	var newUser = m.User{
-		Email:    "jose@gmail.com",
-		Password: "josesito",
+	var json map[string]interface{} = map[string]interface{}{}
+	err := c.Bind(&json)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	userID := id.String()
+	newUser := m.User{
+		Name:     json["name"].(string),
+		Password: json["password"].(string),
+		Email:    json["email"].(string),
+	}
 
-	err := user_repository.UpdateUser(newUser, userID)
+	id, err := primitive.ObjectIDFromHex(json["id"].(string))
 
 	if err != nil {
-		return c.String(http.StatusBadRequest, "no se pudo actualizar el usuario")
+		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	return c.String(http.StatusOK, "Se actualizo el usuario")
+	err = user_repository.UpdateUser(newUser, id)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.String(http.StatusOK, "se actualizo el usuario con exito")
 }
 
 func Delete(c echo.Context) error {
 
-	userID := id.String()
+	id := c.Param("id")
 
-	err := user_repository.DseleteUser(userID)
+	userId, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {
-		return c.String(http.StatusBadRequest, "no se pudo eliminar el usuario")
+		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	return c.String(http.StatusOK, "se elimino con exito")
+	err = user_repository.DseleteUser(userId)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.String(http.StatusOK, "se elimino el usuario con exito")
 }

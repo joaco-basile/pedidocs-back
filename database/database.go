@@ -12,7 +12,7 @@ import (
 var ctx = context.TODO()
 
 func GetCollection(collectionName string) *mongo.Collection {
-	clientOptions := options.Client().ApplyURI("mongodb+srv://joacobasile:8mz0b8OwlYn7VEpg@pedidocs.dybqk3p.mongodb.net/?retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI("mongodb://joacobasile:joacodev123@localhost:27017/?authSource=admin")
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err)

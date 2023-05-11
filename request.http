@@ -1,2 +1,32 @@
 ###
-POST http://127.0.0.1:1323/user/ HTTP/1.1
+POST http://localhost:1323/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"marce",
+    "password":"1233",
+    "email":"marce@gmail.com"
+}
+
+###
+GET http://localhost:1323/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"marce",
+    "password":"1233"
+}
+
+###
+PATCH http://localhost:1323/user HTTP/1.1
+Content-Type: application/json
+
+{
+    "id":"645d02b10ea69f3b780ea21e",
+    "name":"juan",
+    "password":"1318",
+    "email":"juan@gmail.com"
+}
+
+###
+PUT http://localhost:1323/user/645d02b10ea69f3b780ea21e HTTP/1.1

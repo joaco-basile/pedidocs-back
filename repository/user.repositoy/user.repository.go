@@ -13,18 +13,12 @@ import (
 var collection = database.GetCollection("users")
 var ctx = context.Background()
 
-func LoginUser(name string, email string, password string) (m.User, error) {
+func LoginUser(nameOrEmail string, password string) (m.User, error) {
 	var user m.User
 
-	if name != "" {
-		err := collection.FindOne(ctx, bson.D{{"name", name}}).Decode(&user)
-		if err != nil {
-			return user, err
-		}
-	}
-
-	if email != "" {
-		err := collection.FindOne(ctx, bson.D{{"email", email}}).Decode(&user)
+	err := collection.FindOne(ctx, bson.D{{"name", nameOrEmail}}).Decode(&user)
+	if err != nil {
+		err = collection.FindOne(ctx, bson.D{{"email", nameOrEmail}}).Decode(&user)
 		if err != nil {
 			return user, err
 		}
@@ -42,18 +36,17 @@ func RegisterUser(user m.User) error {
 	return nil
 }
 
-func UpdateUser(user m.User, userId string) error {
+func UpdateUser(user m.User, id primitive.ObjectID) error {
 
 	var err error
 
-	oid, _ := primitive.ObjectIDFromHex(userId)
-
-	filter := bson.M{"_id": oid}
+	filter := bson.M{"_id": id}
 
 	update := bson.M{
 		"$set": bson.M{
 			"name":       user.Name,
 			"email":      user.Email,
+			"password":   user.Password,
 			"updated_at": time.Now(),
 		},
 	}
@@ -67,10 +60,13 @@ func UpdateUser(user m.User, userId string) error {
 	return nil
 }
 
-func DseleteUser(name string) error {
-	_, err := collection.DeleteOne(ctx, bson.M{"name": name})
+func DseleteUser(id primitive.ObjectID) error {
+
+	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
+
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
