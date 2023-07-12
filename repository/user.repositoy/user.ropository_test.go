@@ -18,6 +18,7 @@ func TestRegister(t *testing.T) {
 		Name:      "Jesus",
 		Email:     "jesus.matiz@micorreo.com",
 		Password:  "123",
+		VIP:       true,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -65,7 +66,7 @@ func TestUpdate(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 
-	err := user_repo.DseleteUser(userId)
+	err := user_repo.DeleteUser(userId)
 
 	if err != nil {
 		t.Error("Error al tratar de eliminar el usuario")

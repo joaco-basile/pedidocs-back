@@ -10,19 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type UserApi struct{}
-
-var id = primitive.NewObjectID()
-
-var TestUser = m.User{
-	ID:        id,
-	Name:      "jesus",
-	Email:     "jesus@gmail.com",
-	Password:  "1234",
-	CreatedAt: time.Now(),
-	UpdatedAt: time.Now(),
-}
-
 func Register(c echo.Context) error {
 	var json map[string]interface{} = map[string]interface{}{}
 
@@ -36,6 +23,7 @@ func Register(c echo.Context) error {
 		Name:      json["name"].(string),
 		Email:     json["email"].(string),
 		Password:  json["password"].(string),
+		VIP:       false,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -105,7 +93,7 @@ func Delete(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 
-	err = user_repository.DseleteUser(userId)
+	err = user_repository.DeleteUser(userId)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)

@@ -16,9 +16,9 @@ var ctx = context.Background()
 func LoginUser(nameOrEmail string, password string) (m.User, error) {
 	var user m.User
 
-	err := collection.FindOne(ctx, bson.D{{"name", nameOrEmail}}).Decode(&user)
+	err := collection.FindOne(ctx, bson.D{{Key: "name", Value: nameOrEmail}}).Decode(&user)
 	if err != nil {
-		err = collection.FindOne(ctx, bson.D{{"email", nameOrEmail}}).Decode(&user)
+		err = collection.FindOne(ctx, bson.D{{Key: "email", Value: nameOrEmail}}).Decode(&user)
 		if err != nil {
 			return user, err
 		}
@@ -60,7 +60,7 @@ func UpdateUser(user m.User, id primitive.ObjectID) error {
 	return nil
 }
 
-func DseleteUser(id primitive.ObjectID) error {
+func DeleteUser(id primitive.ObjectID) error {
 
 	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
 
