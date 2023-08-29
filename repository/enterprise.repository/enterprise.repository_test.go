@@ -52,17 +52,13 @@ func TestCreate(t *testing.T) {
 func TestRead(t *testing.T) {
 	result, err := er.GetEnterprise(Id)
 	if err != nil {
-		t.Error(err)
+		t.Error(err, result)
+		t.Fatal()
 	}
 	t.Log("Se logro leer la empresa con exito:", result)
 }
 
 func TestAddOrder(t *testing.T) {
-	id, err := primitive.ObjectIDFromHex("64d227124c1bdfa5abba7664")
-	if err != nil {
-		t.Error(err)
-	}
-
 	var or = m.Order{
 		ID: primitive.NewObjectID(),
 		Products: []m.Product{
@@ -86,7 +82,7 @@ func TestAddOrder(t *testing.T) {
 		UpdatedAt: time.Now(),
 	}
 
-	err = er.AddOrder(or, id)
+	err := er.AddOrder(or, Id)
 	if err != nil {
 		t.Error(err)
 	}

@@ -2,6 +2,7 @@ package enterprise_repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/joaco-basile/pedidocs-back/database"
 	m "github.com/joaco-basile/pedidocs-back/models"
@@ -22,13 +23,13 @@ func CreateEnterprise(etrps m.Enterprise) error {
 
 func GetEnterprise(id primitive.ObjectID) (m.Enterprise, error) {
 	var Etrps m.Enterprise
-
+	fmt.Println(id)
 	err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&Etrps)
 	if err != nil {
 		return Etrps, err
 	}
 
-	return Etrps, err
+	return Etrps, nil
 }
 
 func AddOrder(newOrder m.Order, id primitive.ObjectID) error {
