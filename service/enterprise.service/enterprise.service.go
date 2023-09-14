@@ -76,3 +76,19 @@ func AddOrder(c echo.Context) error {
 	//Se devuelve una respuesta al pedido
 	return c.String(http.StatusOK, "¡¡El pedido fue guardado con exito!!")
 }
+
+func GetEnterprise(c echo.Context) error {
+	id := c.Param("enterpriseID")
+	objetID, err := primitive.ObjectIDFromHex(id)
+
+	if err != nil {
+		c.Error(err)
+	}
+
+	enterpriseData, err := enterprise_repository.GetEnterprise(objetID)
+	if err != nil {
+		c.Error(err)
+	}
+
+	return c.JSON(http.StatusOK, enterpriseData)
+}
