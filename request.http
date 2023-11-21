@@ -1,5 +1,5 @@
 ###
-POST http://localhost:1323/user HTTP/1.1
+POST http://localhost:1323/user/ HTTP/1.1
 Content-Type: application/json
 
 {
@@ -9,20 +9,20 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:1323/user HTTP/1.1
+GET http://localhost:1323/user/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"marce",
-    "password":"1233"
+    "name":"marce@gmail.com",
+    "password":"marce123"
 }
 
 ###
-PATCH http://localhost:1323/user HTTP/1.1
+PATCH http://localhost:1323/user/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "id":"645d02b10ea69f3b780ea21e",
+    "id":"6552a02bc4a40647544dea54",
     "name":"juan",
     "password":"1318",
     "email":"juan@gmail.com"
@@ -30,10 +30,10 @@ Content-Type: application/json
 
 
 ###
-PUT http://localhost:1323/user/645d02b10ea69f3b780ea21e HTTP/1.1
+PUT http://localhost:1323/user/6552a1351ce562e34c026802/ HTTP/1.1
 
 ###
-POST http://localhost:1323/enterprise HTTP/1.1
+POST http://localhost:1323/enterprise/ HTTP/1.1
 Content-Type: application/json
 
 {

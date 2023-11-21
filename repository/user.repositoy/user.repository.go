@@ -16,12 +16,9 @@ var ctx = context.Background()
 func LoginUser(nameOrEmail string, password string) (m.User, error) {
 	var user m.User
 
-	err := collection.FindOne(ctx, bson.D{{Key: "name", Value: nameOrEmail}}).Decode(&user)
+	err := collection.FindOne(ctx, bson.D{{Key: "email", Value: nameOrEmail}}).Decode(&user)
 	if err != nil {
-		err = collection.FindOne(ctx, bson.D{{Key: "email", Value: nameOrEmail}}).Decode(&user)
-		if err != nil {
-			return user, err
-		}
+		return user, err
 	}
 
 	return user, nil

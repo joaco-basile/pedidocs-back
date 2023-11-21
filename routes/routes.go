@@ -10,12 +10,12 @@ func SetRoutes(e *echo.Echo) {
 	public := e.Group("")
 
 	//rutas para los metodos de usuarios
-	public.POST("/user", user_service.Register)
-	public.GET("/user", user_service.Login)
-	public.PATCH("/user", user_service.Update)
-	public.PUT("/user/:id", user_service.Delete)
+	public.GET("/user/", user_service.Login)
+	public.POST("/user/", user_service.Register)
+	public.PATCH("/user/", user_service.Update)
+	public.PUT("/user/:id/", user_service.Delete)
 
 	//rutas para los metodos de empresas
-	public.POST("/enterprise", enterprise_service.CreateEnterprise)
+	public.POST("/enterprise/", enterprise_service.CreateEnterprise)
 
 }

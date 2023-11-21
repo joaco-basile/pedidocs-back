@@ -1,6 +1,7 @@
 package user_service
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -45,8 +46,8 @@ func Login(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-
 	user, err := user_repository.LoginUser(json["name"].(string), json["password"].(string))
+	fmt.Println(user)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
