@@ -46,6 +46,7 @@ func Login(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println(json)
 	user, err := user_repository.LoginUser(json["name"].(string), json["password"].(string))
 	fmt.Println(user)
 

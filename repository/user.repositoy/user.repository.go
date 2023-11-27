@@ -2,6 +2,7 @@ package user_repository
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/joaco-basile/pedidocs-back/database"
@@ -13,12 +14,16 @@ import (
 var collection = database.GetCollection("users")
 var ctx = context.Background()
 
-func LoginUser(nameOrEmail string, password string) (m.User, error) {
+func LoginUser(email string, password string) (m.User, error) {
 	var user m.User
 
-	err := collection.FindOne(ctx, bson.D{{Key: "email", Value: nameOrEmail}}).Decode(&user)
+	err := collection.FindOne(ctx, bson.D{{Key: "email", Value: email}}).Decode(&user)
+	if user.Password != password {
+		err = errors.New("la contraseña no coincide")
+		return m.User{}, err
+	}
 	if err != nil {
-		return user, err
+		return m.User{}, err
 	}
 
 	return user, nil
