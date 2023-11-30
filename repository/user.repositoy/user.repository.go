@@ -14,6 +14,12 @@ import (
 var collection = database.GetCollection("users")
 var ctx = context.Background()
 
+func CheckExist(email string) bool {
+	var existUser m.User
+	collection.FindOne(ctx, bson.D{{Key: "email", Value: email}}).Decode(&existUser)
+	return existUser.Email == email
+}
+
 func LoginUser(email string, password string) (m.User, error) {
 	var user m.User
 
@@ -31,10 +37,18 @@ func LoginUser(email string, password string) (m.User, error) {
 }
 
 func RegisterUser(user m.User) error {
+	isExist := CheckExist(user.Email)
+	if isExist {
+		err := errors.New("ya existe un usuario con ese gmail, pruebe mejor con otro")
+		return err
+	}
+
 	_, err := collection.InsertOne(ctx, user)
+
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 
@@ -66,6 +80,26 @@ func DeleteUser(id primitive.ObjectID) error {
 
 	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func AddToEnterprise(userID primitive.ObjectID, enterpriseID primitive.ObjectID) error {
+	var err error
+
+	filter := bson.M{"_id": userID}
+
+	update := bson.M{
+		"$set": bson.M{
+			"enterpriseID": enterpriseID,
+			"updated_at":   time.Now(),
+		},
+	}
+
+	_, err = collection.UpdateOne(ctx, filter, update)
 	if err != nil {
 		return err
 	}

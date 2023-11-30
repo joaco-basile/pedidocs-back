@@ -12,7 +12,7 @@ type User struct {
 	Email        string             `json:"email"`
 	Password     string             `json:"password"`
 	VIP          bool               `json:"vip"`
-	EnterpriseId primitive.ObjectID `json:"enterpriseId"`
+	EnterpriseID primitive.ObjectID `bson:"enterpriseID" json:"enterpriseID"`
 	CreatedAt    time.Time          `bson:"created_At" json:"created_at"`
 	UpdatedAt    time.Time          `bson:"updated_at" json:"updated_at,omitempty"`
 }

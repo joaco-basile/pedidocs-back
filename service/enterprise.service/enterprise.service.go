@@ -78,7 +78,7 @@ func AddOrder(c echo.Context) error {
 }
 
 func GetEnterprise(c echo.Context) error {
-	id := c.Param("enterpriseID")
+	id := c.QueryParam("enterpriseID")
 	objetID, err := primitive.ObjectIDFromHex(id)
 
 	if err != nil {

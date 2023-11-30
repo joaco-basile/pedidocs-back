@@ -20,13 +20,14 @@ func Register(c echo.Context) error {
 	}
 
 	var user = m.User{
-		ID:        primitive.NewObjectID(),
-		Name:      json["name"].(string),
-		Email:     json["email"].(string),
-		Password:  json["password"].(string),
-		VIP:       false,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		ID:           primitive.NewObjectID(),
+		Name:         json["name"].(string),
+		Email:        json["email"].(string),
+		Password:     json["password"].(string),
+		EnterpriseID: primitive.ObjectID{},
+		VIP:          false,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
 	}
 
 	err = user_repository.RegisterUser(user)
@@ -47,7 +48,7 @@ func Login(c echo.Context) error {
 		return err
 	}
 	fmt.Println(json)
-	user, err := user_repository.LoginUser(json["name"].(string), json["password"].(string))
+	user, err := user_repository.LoginUser(json["email"].(string), json["password"].(string))
 	fmt.Println(user)
 
 	if err != nil {
@@ -102,4 +103,27 @@ func Delete(c echo.Context) error {
 	}
 
 	return c.String(http.StatusOK, "se elimino el usuario con exito")
+}
+
+func AddToEnterprise(c echo.Context) error {
+
+	userID, err := primitive.ObjectIDFromHex(c.QueryParam("userID"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	enterpriseID, err := primitive.ObjectIDFromHex(c.QueryParam("enterpriseID"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	fmt.Println(userID, enterpriseID)
+
+	err = user_repository.AddToEnterprise(userID, enterpriseID)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	return c.String(http.StatusOK, "todo ok")
 }
